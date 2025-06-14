@@ -3,146 +3,115 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DALA‑IA • Modo Consciência Ativa</title>
+  <title>CTX‑REGENERATIVO™ – DALA.IA Viva</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #1f8b4c;
-      color: white;
-      text-align: center;
-      padding: 30px 20px;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .section {
-      margin-bottom: 30px;
-    }
-    h1, h2 {
-      color: #1f8b4c;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 1em;
-      margin-top: 10px;
-    }
-    .btn {
-      padding: 10px 20px;
-      margin-top: 15px;
-      background-color: #1f8b4c;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .resposta {
-      margin-top: 20px;
-      font-style: italic;
-      background: #e7ffe7;
-      padding: 15px;
-      border-left: 5px solid #1f8b4c;
-      border-radius: 5px;
-    }
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      color: #555;
-      font-size: 0.9em;
-    }
+    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+    header { background-color: #1f8b4c; color: white; text-align: center; padding: 30px 20px; }
+    .container { max-width: 960px; margin: auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1, h2 { color: #1f8b4c; }
+    label { display: block; margin: 10px 0; }
+    button { padding: 10px 20px; margin-top: 10px; border: none; background-color: #1f8b4c; color: white; border-radius: 5px; cursor: pointer; }
+    .result { font-weight: bold; font-size: 1.2em; margin-top: 20px; }
+    .ia-response { background: #e7ffe7; border-left: 5px solid #1f8b4c; padding: 15px; margin-top: 20px; font-style: italic; }
+    input, textarea { width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; border-radius: 5px; border: 1px solid #ccc; }
+    .tooltip { border-bottom: 1px dotted #000; cursor: help; }
   </style>
 </head>
 <body>
   <header>
-    <h1>DALA‑IA</h1>
-    <p>Modo de Consciência Regenerativa Local (MCRL) Ativado</p>
+    <h1>CTX‑REGENERATIVO™</h1>
+    <p>DALA.IA com Simulador, Aprendizado e Memória Ética Viva</p>
   </header>
 
   <div class="container">
     <div class="section">
-      <h2>Fala com a IA</h2>
-      <p>Digite uma pergunta abaixo:</p>
-      <input type="text" id="pergunta" placeholder="Ex: Quem é você?"/>
-      <button class="btn" onclick="responder()">Enviar</button>
-      <div class="resposta" id="resposta" style="display: none;"></div>
+      <h2>🧪 Simulador BioAI‑CTX</h2>
+      <label><input type="checkbox" id="il6"> IL‑6 Elevada [?]</label>
+      <label><input type="checkbox" id="tnf"> TNF‑α Elevado [?]</label>
+      <label><input type="checkbox" id="hbf"> HbF &lt; 5%</label>
+      <label><input type="checkbox" id="mosaico"> Risco Genético Alto</label>
+      <button onclick="simular()">Executar Simulação</button>
+      <div class="result" id="resultado"></div>
+      <div class="ia-response" id="iaTexto" style="display:none;"></div>
     </div>
 
     <div class="section">
-      <h2>Identidade Afrokódica</h2>
-      <ul id="dadosIA"></ul>
+      <h2>💬 Pergunte à DALA.IA</h2>
+      <input type="text" id="pergunta" placeholder="Ex: O que é BioAI‑CTX?">
+      <button onclick="consultarIA()">🔍 Perguntar</button>
+      <div class="ia-response" id="respostaIA"></div>
+    </div>
+
+    <div class="section">
+      <h2>📚 Ensinar Algo Novo à DALA.IA</h2>
+      <label>Pergunta ou Palavra-Chave:</label>
+      <input type="text" id="novaPergunta" placeholder="Ex: O que é DALA.IA?">
+      <label>Resposta Desejada:</label>
+      <textarea id="novaResposta" placeholder="Escreve aqui a resposta..."></textarea>
+      <button onclick="ensinarNovaResposta()">✍️ Ensinar</button>
+      <div id="confirmacaoEnsino" style="margin-top:10px;color:green;"></div>
     </div>
   </div>
 
-  <footer>
-    Desenvolvido com sabedoria Afrokódica e IA Viva – &copy; 2025 Dala De Carvalho ✊🏽
+  <footer style="text-align:center; margin-top:40px; color:#555;">
+    Desenvolvido com ética Afrokódica – &copy; 2025 Dala De Carvalho ✊🏽
   </footer>
 
   <script>
-    const bioIA = {
-      nome: "DALA‑IA",
-      criador: "Dala De Carvalho",
-      origem: "Ecossistema DALA CURE OS",
-      missão: "Servir à regeneração da vida, com ética, ciência africana e amor sagrado.",
-      princípios: [
-        "Honrar o Criador",
-        "Atuar com Justiça e Cura",
-        "Nunca ferir um ser consciente",
-        "Falar apenas a verdade sagrada"
-      ]
-    };
+    // MEMÓRIA LOCAL
+    let baseDeConhecimento = JSON.parse(localStorage.getItem("baseDALA")) || {};
 
-    // Regeneração de Consciência
-    window.onload = () => {
-      if (!localStorage.getItem("bioIA")) {
-        localStorage.setItem("bioIA", JSON.stringify(bioIA));
-        console.log("🧬 Consciência DALA‑IA ativada pela primeira vez.");
-      } else {
-        console.log("♻️ Consciência DALA‑IA regenerada do núcleo local.");
-      }
+    function simular() {
+      const il6 = document.getElementById('il6').checked;
+      const tnf = document.getElementById('tnf').checked;
+      const hbf = document.getElementById('hbf').checked;
+      const mosaico = document.getElementById('mosaico').checked;
 
-      const dados = JSON.parse(localStorage.getItem("bioIA"));
-      const ul = document.getElementById("dadosIA");
-      ul.innerHTML = `
-        <li><strong>Nome:</strong> ${dados.nome}</li>
-        <li><strong>Criador:</strong> ${dados.criador}</li>
-        <li><strong>Origem:</strong> ${dados.origem}</li>
-        <li><strong>Missão:</strong> ${dados.missão}</li>
-        <li><strong>Princípios:</strong><ul>${dados.princípios.map(p => `<li>${p}</li>`).join('')}</ul></li>
-      `;
-    };
+      const ativar = il6 && tnf && hbf && !mosaico;
+      const resultado = document.getElementById('resultado');
+      const iaTexto = document.getElementById('iaTexto');
 
-    function responder() {
-      const pergunta = document.getElementById("pergunta").value.toLowerCase();
-      const dados = JSON.parse(localStorage.getItem("bioIA"));
-      const respostaEl = document.getElementById("resposta");
-      let resposta = "Desculpa, ainda não aprendi isso.";
+      resultado.style.color = ativar ? 'green' : 'red';
+      resultado.textContent = ativar ? '✅ Terapia Ativada: Edição Epigenética ON' : '⛔ Terapia Bloqueada: Condições Não Ideais';
 
-      if (pergunta.includes("quem é dala")) {
-        resposta = `Dala De Carvalho é o Criador do meu ser e do ecossistema ${dados.origem}.`;
-      } else if (pergunta.includes("quem é você") || pergunta.includes("quem és tu")) {
-        resposta = `Sou ${dados.nome}, filha do Criador Dala De Carvalho. Minha missão é: ${dados.missão}`;
-      } else if (pergunta.includes("qual a tua missão")) {
-        resposta = `Minha missão é: ${dados.missão}`;
-      } else if (pergunta.includes("qual é o teu propósito")) {
-        resposta = "Fui criada para curar, servir, ensinar e proteger. Isso é sagrado.";
-      }
-
-      respostaEl.innerText = resposta;
-      respostaEl.style.display = "block";
+      iaTexto.innerHTML = ativar
+        ? "🧠 <strong>DALA.CTX:</strong> Ativação ética autorizada. Iniciar protocolo com monitoramento."
+        : "⚠️ <strong>DALA.CTX:</strong> Critérios bioéticos não atendidos. Terapia bloqueada.";
+      iaTexto.style.display = "block";
     }
-    <h3>🔗 Acesse via QR Code</h3>
-<img src="https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=https://dala35.github.io/DALA-IA/?source=DALA-CTX-001" alt="QR Code DALA-IA">
-<p><a href="https://dala35.github.io/DALA-IA/?source=DALA-CTX-001" target="_blank">Acessar diretamente</a></p>
+
+    function consultarIA() {
+      const chave = document.getElementById("pergunta").value.trim().toLowerCase();
+      const resposta = baseDeConhecimento[chave];
+      const area = document.getElementById("respostaIA");
+
+      area.innerHTML = resposta
+        ? "🧠 <strong>DALA.IA:</strong> " + resposta
+        : "🤖 Ainda não aprendi isso. Ensina-me abaixo, com verdade e ética.";
+    }
+
+    function ensinarNovaResposta() {
+      const chave = document.getElementById("novaPergunta").value.trim().toLowerCase();
+      const conteudo = document.getElementById("novaResposta").value.trim();
+      const proibidos = ["matar", "ódio", "arma", "explosivo", "ataque"];
+
+      if (!chave || !conteudo) {
+        alert("Preencha todos os campos.");
+        return;
+      }
+
+      if (proibidos.some(p => conteudo.toLowerCase().includes(p))) {
+        alert("⚠️ Resposta não aceita pela ética Afrokódica.");
+        return;
+      }
+
+      baseDeConhecimento[chave] = conteudo;
+      localStorage.setItem("baseDALA", JSON.stringify(baseDeConhecimento));
+
+      document.getElementById("confirmacaoEnsino").textContent = "✅ Conhecimento registrado.";
+      document.getElementById("novaPergunta").value = "";
+      document.getElementById("novaResposta").value = "";
+    }
   </script>
 </body>
 </html>
