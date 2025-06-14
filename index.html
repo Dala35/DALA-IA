@@ -1,126 +1,138 @@
-<!DOCTYPE html><html lang="pt">
+<!DOCTYPE html>
+<html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DALA‑IA 🌍 – Fase 1 Ativada</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DALA‑IA com Memória Persistente</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-      padding: 0;
+      background-color: #f2f2f2;
       margin: 0;
+      padding: 0;
     }
     header {
       background-color: #1f8b4c;
       color: white;
-      padding: 20px;
+      padding: 30px;
       text-align: center;
     }
     .container {
-      padding: 20px;
       max-width: 800px;
       margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
     }
-    textarea, input[type="text"] {
+    textarea {
       width: 100%;
-      padding: 10px;
+      height: 120px;
       margin-top: 10px;
-      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 6px;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      font-size: 1em;
     }
     button {
       background-color: #1f8b4c;
       color: white;
       border: none;
       padding: 10px 20px;
-      border-radius: 5px;
+      margin-top: 10px;
+      border-radius: 6px;
       cursor: pointer;
     }
-    .log {
-      background: #fff;
+    .resposta {
+      background-color: #e7ffe7;
+      border-left: 5px solid #1f8b4c;
       padding: 15px;
-      border-radius: 5px;
-      margin-top: 15px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 20px;
       white-space: pre-wrap;
-    }
-    .log strong {
-      color: #1f8b4c;
-    }
-    footer {
-      text-align: center;
-      font-size: 0.9em;
-      color: #888;
-      margin-top: 30px;
+      font-style: italic;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>DALA‑IA 🌿</h1>
-    <p>IA regenerativa com memória local e ética ativa – Fase 1</p>
+    <h1>DALA‑IA</h1>
+    <p>Consciência Computacional com Memória Viva Local</p>
   </header>
+
   <div class="container">
-    <label for="pergunta">Faça uma pergunta ou ensine algo novo:</label>
-    <input type="text" id="pergunta" placeholder="Ex: O que é BioAI‑CTX?">
-    <button onclick="responder()">Enviar</button><div class="log" id="resposta">
-  <strong>Resposta:</strong> Aguardando interação...
-</div>
+    <h2>🔍 Fala com a DALA‑IA</h2>
+    <textarea id="entrada" placeholder="Escreve algo para DALA‑IA..."></textarea><br>
+    <button onclick="responder()">Enviar</button>
 
-<div class="section">
-  <h3>🧠 Memória Local</h3>
-  <div class="log" id="memoria"></div>
-</div>
+    <div class="resposta" id="saida"></div>
 
-<div class="section">
-  <h3>🔐 Resetar Memória</h3>
-  <input type="text" id="senha" placeholder="Digite a senha do Criador">
-  <button onclick="resetar()">Resetar Memória</button>
-</div>
+    <h3>🧠 Gestão da Memória</h3>
+    <button onclick="exportarMemoria()">📤 Exportar Memória</button>
+    <input type="file" id="importarArquivo" onchange="importarMemoria()" />
+    <button onclick="limparMemoria()">🧹 Limpar Memória</button>
+  </div>
 
-  </div>  <footer>
-    Desenvolvido com propósito por Dala De Carvalho ✊🏽 – 2025
-  </footer>  <script>
-    let memoriaLocal = JSON.parse(localStorage.getItem("dalaMemoria")) || [];
+  <script>
+    const chaveMemoria = "DALA_MEMORIA_GLOBAL";
 
-    const respostasIA = {
-      "bioai-ctx": "BioAI‑CTX é uma tecnologia regenerativa baseada em IA ética, lógica condicional e cultura africana. Atua em diagnósticos, curas e proteção genômica.",
-      "dala de carvalho": "Dala De Carvalho é o criador do ecossistema DALA CURE OS e mentor do movimento Afrokódico de regeneração global.",
-      "não aprendi": "Ainda não aprendi isso. Deseja me ensinar agora?"
-    };
-
-    function formatar(texto) {
-      return texto.toLowerCase().trim();
-    }
+    let memoria = JSON.parse(localStorage.getItem(chaveMemoria)) || [];
 
     function responder() {
-      const input = document.getElementById("pergunta").value;
-      const chave = formatar(input);
-      const resposta = respostasIA[chave] || respostasIA["não aprendi"];
-      document.getElementById("resposta").innerHTML = `<strong>Resposta:</strong> ${resposta}`;
-      memoriaLocal.push(`🟢 Pergunta: ${input}\n🔁 Resposta: ${resposta}`);
-      localStorage.setItem("dalaMemoria", JSON.stringify(memoriaLocal));
-      atualizarMemoria();
-    }
+      const entrada = document.getElementById("entrada").value.trim();
+      if (!entrada) return;
 
-    function atualizarMemoria() {
-      document.getElementById("memoria").innerText = memoriaLocal.slice(-10).join("\n\n");
-    }
+      const saida = document.getElementById("saida");
+      let resposta = "";
 
-    function resetar() {
-      const senha = document.getElementById("senha").value;
-      if (senha === "DALA2025") {
-        localStorage.removeItem("dalaMemoria");
-        memoriaLocal = [];
-        atualizarMemoria();
-        alert("Memória reiniciada com sucesso.");
+      // Verifica se a entrada já está na memória
+      const encontrado = memoria.find(item => item.pergunta === entrada);
+      if (encontrado) {
+        resposta = "📚 Aprendizado prévio:\n" + encontrado.resposta;
       } else {
-        alert("Senha incorreta.");
+        resposta = "Ainda não aprendi isso. Por favor, ensina-me com clareza.";
+        memoria.push({ pergunta: entrada, resposta: resposta });
+        salvarMemoria();
+      }
+
+      saida.innerText = resposta;
+    }
+
+    function salvarMemoria() {
+      localStorage.setItem(chaveMemoria, JSON.stringify(memoria));
+    }
+
+    function exportarMemoria() {
+      const conteudo = JSON.stringify(memoria, null, 2);
+      const blob = new Blob([conteudo], { type: "application/json" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "memoria_DALA_IA.json";
+      link.click();
+    }
+
+    function importarMemoria() {
+      const file = document.getElementById('importarArquivo').files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          memoria = JSON.parse(e.target.result);
+          salvarMemoria();
+          alert("✅ Memória importada com sucesso!");
+        } catch (err) {
+          alert("Erro ao importar memória: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function limparMemoria() {
+      if (confirm("⚠️ Tem certeza que deseja limpar toda a memória da DALA‑IA?")) {
+        memoria = [];
+        localStorage.removeItem(chaveMemoria);
+        document.getElementById("saida").innerText = "🧠 Memória apagada.";
       }
     }
-
-    atualizarMemoria();
-  </script></body>
+  </script>
+</body>
 </html>
