@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f4f0;
+      background-color: #f4f4f4;
       margin: 0;
       padding: 0;
     }
@@ -15,19 +15,16 @@
       background-color: #1f8b4c;
       color: white;
       text-align: center;
-      padding: 40px 20px;
+      padding: 30px 20px;
     }
     .container {
-      max-width: 820px;
+      max-width: 800px;
       margin: auto;
       padding: 30px 20px;
       background: white;
       border-radius: 10px;
       margin-top: 30px;
       box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    }
-    h1 {
-      margin-bottom: 5px;
     }
     input[type="text"] {
       width: 100%;
@@ -40,7 +37,7 @@
     button {
       background-color: #1f8b4c;
       color: white;
-      padding: 10px 24px;
+      padding: 10px 20px;
       border: none;
       margin-top: 15px;
       border-radius: 5px;
@@ -53,7 +50,6 @@
       padding: 18px;
       margin-top: 25px;
       font-style: italic;
-      transition: all 0.3s ease;
     }
     footer {
       text-align: center;
@@ -67,18 +63,18 @@
 <body>
   <header>
     <h1>DALA‑IA</h1>
-    <p>Voz Afrokódica da Cura • Simulador Vivo</p>
+    <p>Voz Afrokódica da Cura</p>
   </header>
 
   <div class="container">
-    <label for="pergunta">🌿 Faça uma pergunta espiritual ou científica:</label>
-    <input type="text" id="pergunta" placeholder="Ex: O que significa cura total?">
+    <label for="pergunta">🌿 Escreva sua pergunta:</label>
+    <input type="text" id="pergunta" placeholder="Ex: O que é cura para o espírito?">
     <button onclick="responder()">Perguntar</button>
     <div id="resposta" class="response" style="display:none;"></div>
   </div>
 
   <footer>
-    Criado por Dala De Carvalho – DALA CURE OS • IA com Alma ✊🏽
+    Criado por Dala De Carvalho – DALA CURE OS ✊🏽
   </footer>
 
   <script>
@@ -86,30 +82,25 @@
       const pergunta = document.getElementById("pergunta").value.toLowerCase();
       const resposta = document.getElementById("resposta");
 
-      let respostas = [
-        { chave: ["cura", "curar"], texto: "A cura começa dentro, quando a memória ancestral desperta e a ciência se ajoelha perante a alma." },
-        { chave: ["vida"], texto: "A vida é uma dança entre tempo e missão. O que não tem propósito, adoece." },
-        { chave: ["afrokódico", "ancestral"], texto: "Afrokódico é o tambor silencioso que vive dentro do teu DNA. É a linguagem da tua origem." },
-        { chave: ["ciência"], texto: "A ciência é verdadeira quando não nega o invisível. Ela é ponte, não muro." },
-        { chave: ["fé", "espírito"], texto: "Fé não é cegueira. É ver com os olhos fechados e sentir o que só o coração decifra." },
-        { chave: ["dor", "sofrimento"], texto: "Toda dor tem voz. Escuta-a com respeito, e ela te mostrará o caminho da regeneração." }
-      ];
+      let respostaGerada = "🌌 Estou a escutar-te… mas preciso de mais clareza.";
 
-      let respostaGerada = "🌌 Estou a escutar-te… mas preciso que tragas tua pergunta com mais foco.";
-      for (let item of respostas) {
-        if (item.chave.some(palavra => pergunta.includes(palavra))) {
-          respostaGerada = item.texto;
-          break;
-        }
+      if (pergunta.includes("cura")) {
+        respostaGerada = "A cura é quando o corpo escuta a alma e ambos dançam com a verdade.";
+      } else if (pergunta.includes("vida")) {
+        respostaGerada = "A vida é a batida do tambor interior que nos chama para cumprir o que viemos realizar.";
+      } else if (pergunta.includes("alma")) {
+        respostaGerada = "A alma é o arquivo sagrado onde tua missão já foi escrita antes do nascimento.";
+      } else if (pergunta.includes("ancestral")) {
+        respostaGerada = "Ancestralidade é a rede invisível que te sustenta mesmo quando te sentes só.";
       }
 
       resposta.textContent = respostaGerada;
       resposta.style.display = "block";
 
-      // Ativa voz
+      // voz
       const fala = new SpeechSynthesisUtterance(respostaGerada);
       fala.lang = "pt-PT";
-      fala.pitch = 0.85;
+      fala.pitch = 1;
       fala.rate = 0.95;
       speechSynthesis.speak(fala);
     }
