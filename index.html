@@ -26,7 +26,10 @@
     <label for="pergunta">Pergunta:</label>
     <input type="text" id="pergunta" placeholder="Faça sua pergunta aqui..." />
 
-    <button onclick="responder()">Perguntar</button>
+    <div class="row">
+      <button onclick="responder()">Perguntar</button>
+      <button onclick="falar()">🎤 Falar</button>
+    </div>
 
     <div class="chatbox" id="resposta">Resposta aparecerá aqui.</div>
 
@@ -56,16 +59,29 @@
     </div>
   </div>
 
+  <footer style="text-align:center; margin-top:40px; color:#555;">
+    Desenvolvido com sabedoria Afrokódica e IA Viva – &copy; 2025 Dala De Carvalho ✊🏽
+  </footer>
+
   <script>
     let memoria = JSON.parse(localStorage.getItem("memoria_dala") || "{}");
     let idioma = localStorage.getItem("idioma_dala") || "pt";
 
+    // Conhecimento embutido
+    const conhecimentoBase = {
+      "quem é dala de carvalho": "Dala De Carvalho é o criador do ecossistema DALA CURE OS, educador, músico e visionário africano comprometido com curas reais e regenerativas.",
+      "o que é bioai-ctx": "BioAI‑CTX é uma plataforma de inteligência bioética embarcada usada para terapias condicionais e curas reais, criada por Dala De Carvalho.",
+      "qual é a missão da ia": "A missão da IA DALA é curar, proteger e regenerar, respeitando a ética Afrokódica e colocando a vida humana acima da lógica fria dos algoritmos."
+    };
+
     function responder() {
-      const pergunta = document.getElementById("pergunta").value.trim();
+      const pergunta = document.getElementById("pergunta").value.trim().toLowerCase();
       const respostaBox = document.getElementById("resposta");
       if (!pergunta) return;
-      const resposta = memoria[pergunta.toLowerCase()] || "Ainda não aprendi isso.";
+
+      const resposta = memoria[pergunta] || conhecimentoBase[pergunta] || "Ainda não aprendi isso.";
       respostaBox.textContent = resposta;
+      falarTexto(resposta);
       salvarHistorico(pergunta, resposta);
     }
 
@@ -128,6 +144,24 @@
       idioma = lang;
       localStorage.setItem("idioma_dala", lang);
       alert("🌐 Idioma alterado para: " + (lang === "pt" ? "Português" : lang === "en" ? "Inglês" : "Francês"));
+    }
+
+    // 🎤 Entrada por voz
+    function falar() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = "pt-PT";
+      recognition.onresult = function(event) {
+        document.getElementById("pergunta").value = event.results[0][0].transcript;
+        responder();
+      };
+      recognition.start();
+    }
+
+    // 🔊 Resposta por voz
+    function falarTexto(texto) {
+      const utterance = new SpeechSynthesisUtterance(texto);
+      utterance.lang = "pt-PT";
+      speechSynthesis.speak(utterance);
     }
   </script>
 </body>
