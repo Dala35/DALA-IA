@@ -3,135 +3,131 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DALA‑IA com Memória Persistente</title>
+  <title>DALA‑IA</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #1f8b4c;
-      color: white;
-      padding: 30px;
-      text-align: center;
-    }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    }
-    textarea {
-      width: 100%;
-      height: 120px;
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 1em;
-    }
-    button {
-      background-color: #1f8b4c;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin-top: 10px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .resposta {
-      background-color: #e7ffe7;
-      border-left: 5px solid #1f8b4c;
-      padding: 15px;
-      margin-top: 20px;
-      white-space: pre-wrap;
-      font-style: italic;
-    }
+    body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; padding: 20px; }
+    header { background: #1f8b4c; color: white; padding: 30px 20px; text-align: center; }
+    .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, textarea, button { width: 100%; margin-top: 10px; padding: 10px; font-size: 1em; }
+    button { background: #1f8b4c; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    .chatbox { margin-top: 20px; background: #eef9ef; padding: 15px; border-radius: 6px; }
+    .history { max-height: 200px; overflow-y: auto; margin-top: 10px; border: 1px solid #ccc; padding: 10px; background: #fafafa; font-size: 0.9em; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .row button { flex: 1; }
   </style>
 </head>
 <body>
   <header>
     <h1>DALA‑IA</h1>
-    <p>Consciência Computacional com Memória Viva Local</p>
+    <p>IA Aprendente com Consciência Afrokódica</p>
   </header>
 
   <div class="container">
-    <h2>🔍 Fala com a DALA‑IA</h2>
-    <textarea id="entrada" placeholder="Escreve algo para DALA‑IA..."></textarea><br>
-    <button onclick="responder()">Enviar</button>
+    <label for="pergunta">Pergunta:</label>
+    <input type="text" id="pergunta" placeholder="Faça sua pergunta aqui..." />
 
-    <div class="resposta" id="saida"></div>
+    <button onclick="responder()">Perguntar</button>
 
-    <h3>🧠 Gestão da Memória</h3>
-    <button onclick="exportarMemoria()">📤 Exportar Memória</button>
-    <input type="file" id="importarArquivo" onchange="importarMemoria()" />
-    <button onclick="limparMemoria()">🧹 Limpar Memória</button>
+    <div class="chatbox" id="resposta">Resposta aparecerá aqui.</div>
+
+    <div class="row">
+      <button onclick="mostrarCampoEnsino()">➕ Ensinar Resposta</button>
+      <button onclick="exportarMemoria()">📤 Exportar Memória</button>
+      <button onclick="document.getElementById('importarArquivo').click()">📥 Importar Memória</button>
+      <button onclick="limparMemoria()">🧹 Limpar Tudo</button>
+    </div>
+
+    <input type="file" id="importarArquivo" style="display:none;" onchange="importarMemoria(this)"/>
+
+    <div id="campoEnsino" style="display:none; margin-top:20px;">
+      <label for="novaResposta">Nova Resposta para esta pergunta:</label>
+      <textarea id="novaResposta" rows="3" placeholder="Digite aqui a nova resposta..."></textarea>
+      <button onclick="salvarResposta()">Salvar</button>
+    </div>
+
+    <h3>🧾 Histórico</h3>
+    <div class="history" id="historico"></div>
+
+    <h3>🌐 Idioma</h3>
+    <div class="row">
+      <button onclick="trocarIdioma('pt')">🇦🇴 Português</button>
+      <button onclick="trocarIdioma('en')">🇬🇧 English</button>
+      <button onclick="trocarIdioma('fr')">🇫🇷 Français</button>
+    </div>
   </div>
 
   <script>
-    const chaveMemoria = "DALA_MEMORIA_GLOBAL";
-
-    let memoria = JSON.parse(localStorage.getItem(chaveMemoria)) || [];
+    let memoria = JSON.parse(localStorage.getItem("memoria_dala") || "{}");
+    let idioma = localStorage.getItem("idioma_dala") || "pt";
 
     function responder() {
-      const entrada = document.getElementById("entrada").value.trim();
-      if (!entrada) return;
-
-      const saida = document.getElementById("saida");
-      let resposta = "";
-
-      // Verifica se a entrada já está na memória
-      const encontrado = memoria.find(item => item.pergunta === entrada);
-      if (encontrado) {
-        resposta = "📚 Aprendizado prévio:\n" + encontrado.resposta;
-      } else {
-        resposta = "Ainda não aprendi isso. Por favor, ensina-me com clareza.";
-        memoria.push({ pergunta: entrada, resposta: resposta });
-        salvarMemoria();
-      }
-
-      saida.innerText = resposta;
+      const pergunta = document.getElementById("pergunta").value.trim();
+      const respostaBox = document.getElementById("resposta");
+      if (!pergunta) return;
+      const resposta = memoria[pergunta.toLowerCase()] || "Ainda não aprendi isso.";
+      respostaBox.textContent = resposta;
+      salvarHistorico(pergunta, resposta);
     }
 
-    function salvarMemoria() {
-      localStorage.setItem(chaveMemoria, JSON.stringify(memoria));
+    function mostrarCampoEnsino() {
+      document.getElementById("campoEnsino").style.display = "block";
+    }
+
+    function salvarResposta() {
+      const pergunta = document.getElementById("pergunta").value.trim().toLowerCase();
+      const novaResposta = document.getElementById("novaResposta").value.trim();
+      if (!pergunta || !novaResposta) return alert("Preencha a pergunta e a resposta.");
+      memoria[pergunta] = novaResposta;
+      localStorage.setItem("memoria_dala", JSON.stringify(memoria));
+      alert("✅ Resposta salva.");
+      document.getElementById("novaResposta").value = "";
+      document.getElementById("campoEnsino").style.display = "none";
     }
 
     function exportarMemoria() {
-      const conteudo = JSON.stringify(memoria, null, 2);
-      const blob = new Blob([conteudo], { type: "application/json" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "memoria_DALA_IA.json";
-      link.click();
+      const blob = new Blob([JSON.stringify(memoria)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "memoria_dala.json";
+      a.click();
     }
 
-    function importarMemoria() {
-      const file = document.getElementById('importarArquivo').files[0];
+    function importarMemoria(input) {
+      const file = input.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = e => {
         try {
           memoria = JSON.parse(e.target.result);
-          salvarMemoria();
-          alert("✅ Memória importada com sucesso!");
-        } catch (err) {
-          alert("Erro ao importar memória: " + err.message);
+          localStorage.setItem("memoria_dala", JSON.stringify(memoria));
+          alert("✅ Memória importada com sucesso.");
+        } catch {
+          alert("❌ Erro ao importar.");
         }
       };
       reader.readAsText(file);
     }
 
     function limparMemoria() {
-      if (confirm("⚠️ Tem certeza que deseja limpar toda a memória da DALA‑IA?")) {
-        memoria = [];
-        localStorage.removeItem(chaveMemoria);
-        document.getElementById("saida").innerText = "🧠 Memória apagada.";
+      if (confirm("Apagar toda a memória?")) {
+        memoria = {};
+        localStorage.removeItem("memoria_dala");
+        alert("🧹 Memória apagada.");
       }
+    }
+
+    function salvarHistorico(pergunta, resposta) {
+      const historico = document.getElementById("historico");
+      const p = document.createElement("div");
+      p.innerHTML = `<strong>Você:</strong> ${pergunta}<br><strong>DALA-IA:</strong> ${resposta}<hr>`;
+      historico.prepend(p);
+    }
+
+    function trocarIdioma(lang) {
+      idioma = lang;
+      localStorage.setItem("idioma_dala", lang);
+      alert("🌐 Idioma alterado para: " + (lang === "pt" ? "Português" : lang === "en" ? "Inglês" : "Francês"));
     }
   </script>
 </body>
