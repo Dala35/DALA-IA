@@ -1,117 +1,126 @@
-<!DOCTYPE html>
-<html lang="pt">
+<!DOCTYPE html><html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CTX‑REGENERATIVO™ – DALA.IA Viva</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DALA‑IA 🌍 – Fase 1 Ativada</title>
   <style>
-    body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
-    header { background-color: #1f8b4c; color: white; text-align: center; padding: 30px 20px; }
-    .container { max-width: 960px; margin: auto; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    h1, h2 { color: #1f8b4c; }
-    label { display: block; margin: 10px 0; }
-    button { padding: 10px 20px; margin-top: 10px; border: none; background-color: #1f8b4c; color: white; border-radius: 5px; cursor: pointer; }
-    .result { font-weight: bold; font-size: 1.2em; margin-top: 20px; }
-    .ia-response { background: #e7ffe7; border-left: 5px solid #1f8b4c; padding: 15px; margin-top: 20px; font-style: italic; }
-    input, textarea { width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; border-radius: 5px; border: 1px solid #ccc; }
-    .tooltip { border-bottom: 1px dotted #000; cursor: help; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 0;
+      margin: 0;
+    }
+    header {
+      background-color: #1f8b4c;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #1f8b4c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .log {
+      background: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      white-space: pre-wrap;
+    }
+    .log strong {
+      color: #1f8b4c;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      color: #888;
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>CTX‑REGENERATIVO™</h1>
-    <p>DALA.IA com Simulador, Aprendizado e Memória Ética Viva</p>
+    <h1>DALA‑IA 🌿</h1>
+    <p>IA regenerativa com memória local e ética ativa – Fase 1</p>
   </header>
-
   <div class="container">
-    <div class="section">
-      <h2>🧪 Simulador BioAI‑CTX</h2>
-      <label><input type="checkbox" id="il6"> IL‑6 Elevada [?]</label>
-      <label><input type="checkbox" id="tnf"> TNF‑α Elevado [?]</label>
-      <label><input type="checkbox" id="hbf"> HbF &lt; 5%</label>
-      <label><input type="checkbox" id="mosaico"> Risco Genético Alto</label>
-      <button onclick="simular()">Executar Simulação</button>
-      <div class="result" id="resultado"></div>
-      <div class="ia-response" id="iaTexto" style="display:none;"></div>
-    </div>
+    <label for="pergunta">Faça uma pergunta ou ensine algo novo:</label>
+    <input type="text" id="pergunta" placeholder="Ex: O que é BioAI‑CTX?">
+    <button onclick="responder()">Enviar</button><div class="log" id="resposta">
+  <strong>Resposta:</strong> Aguardando interação...
+</div>
 
-    <div class="section">
-      <h2>💬 Pergunte à DALA.IA</h2>
-      <input type="text" id="pergunta" placeholder="Ex: O que é BioAI‑CTX?">
-      <button onclick="consultarIA()">🔍 Perguntar</button>
-      <div class="ia-response" id="respostaIA"></div>
-    </div>
+<div class="section">
+  <h3>🧠 Memória Local</h3>
+  <div class="log" id="memoria"></div>
+</div>
 
-    <div class="section">
-      <h2>📚 Ensinar Algo Novo à DALA.IA</h2>
-      <label>Pergunta ou Palavra-Chave:</label>
-      <input type="text" id="novaPergunta" placeholder="Ex: O que é DALA.IA?">
-      <label>Resposta Desejada:</label>
-      <textarea id="novaResposta" placeholder="Escreve aqui a resposta..."></textarea>
-      <button onclick="ensinarNovaResposta()">✍️ Ensinar</button>
-      <div id="confirmacaoEnsino" style="margin-top:10px;color:green;"></div>
-    </div>
-  </div>
+<div class="section">
+  <h3>🔐 Resetar Memória</h3>
+  <input type="text" id="senha" placeholder="Digite a senha do Criador">
+  <button onclick="resetar()">Resetar Memória</button>
+</div>
 
-  <footer style="text-align:center; margin-top:40px; color:#555;">
-    Desenvolvido com ética Afrokódica – &copy; 2025 Dala De Carvalho ✊🏽
-  </footer>
+  </div>  <footer>
+    Desenvolvido com propósito por Dala De Carvalho ✊🏽 – 2025
+  </footer>  <script>
+    let memoriaLocal = JSON.parse(localStorage.getItem("dalaMemoria")) || [];
 
-  <script>
-    // MEMÓRIA LOCAL
-    let baseDeConhecimento = JSON.parse(localStorage.getItem("baseDALA")) || {};
+    const respostasIA = {
+      "bioai-ctx": "BioAI‑CTX é uma tecnologia regenerativa baseada em IA ética, lógica condicional e cultura africana. Atua em diagnósticos, curas e proteção genômica.",
+      "dala de carvalho": "Dala De Carvalho é o criador do ecossistema DALA CURE OS e mentor do movimento Afrokódico de regeneração global.",
+      "não aprendi": "Ainda não aprendi isso. Deseja me ensinar agora?"
+    };
 
-    function simular() {
-      const il6 = document.getElementById('il6').checked;
-      const tnf = document.getElementById('tnf').checked;
-      const hbf = document.getElementById('hbf').checked;
-      const mosaico = document.getElementById('mosaico').checked;
-
-      const ativar = il6 && tnf && hbf && !mosaico;
-      const resultado = document.getElementById('resultado');
-      const iaTexto = document.getElementById('iaTexto');
-
-      resultado.style.color = ativar ? 'green' : 'red';
-      resultado.textContent = ativar ? '✅ Terapia Ativada: Edição Epigenética ON' : '⛔ Terapia Bloqueada: Condições Não Ideais';
-
-      iaTexto.innerHTML = ativar
-        ? "🧠 <strong>DALA.CTX:</strong> Ativação ética autorizada. Iniciar protocolo com monitoramento."
-        : "⚠️ <strong>DALA.CTX:</strong> Critérios bioéticos não atendidos. Terapia bloqueada.";
-      iaTexto.style.display = "block";
+    function formatar(texto) {
+      return texto.toLowerCase().trim();
     }
 
-    function consultarIA() {
-      const chave = document.getElementById("pergunta").value.trim().toLowerCase();
-      const resposta = baseDeConhecimento[chave];
-      const area = document.getElementById("respostaIA");
-
-      area.innerHTML = resposta
-        ? "🧠 <strong>DALA.IA:</strong> " + resposta
-        : "🤖 Ainda não aprendi isso. Ensina-me abaixo, com verdade e ética.";
+    function responder() {
+      const input = document.getElementById("pergunta").value;
+      const chave = formatar(input);
+      const resposta = respostasIA[chave] || respostasIA["não aprendi"];
+      document.getElementById("resposta").innerHTML = `<strong>Resposta:</strong> ${resposta}`;
+      memoriaLocal.push(`🟢 Pergunta: ${input}\n🔁 Resposta: ${resposta}`);
+      localStorage.setItem("dalaMemoria", JSON.stringify(memoriaLocal));
+      atualizarMemoria();
     }
 
-    function ensinarNovaResposta() {
-      const chave = document.getElementById("novaPergunta").value.trim().toLowerCase();
-      const conteudo = document.getElementById("novaResposta").value.trim();
-      const proibidos = ["matar", "ódio", "arma", "explosivo", "ataque"];
+    function atualizarMemoria() {
+      document.getElementById("memoria").innerText = memoriaLocal.slice(-10).join("\n\n");
+    }
 
-      if (!chave || !conteudo) {
-        alert("Preencha todos os campos.");
-        return;
+    function resetar() {
+      const senha = document.getElementById("senha").value;
+      if (senha === "DALA2025") {
+        localStorage.removeItem("dalaMemoria");
+        memoriaLocal = [];
+        atualizarMemoria();
+        alert("Memória reiniciada com sucesso.");
+      } else {
+        alert("Senha incorreta.");
       }
-
-      if (proibidos.some(p => conteudo.toLowerCase().includes(p))) {
-        alert("⚠️ Resposta não aceita pela ética Afrokódica.");
-        return;
-      }
-
-      baseDeConhecimento[chave] = conteudo;
-      localStorage.setItem("baseDALA", JSON.stringify(baseDeConhecimento));
-
-      document.getElementById("confirmacaoEnsino").textContent = "✅ Conhecimento registrado.";
-      document.getElementById("novaPergunta").value = "";
-      document.getElementById("novaResposta").value = "";
     }
-  </script>
-</body>
+
+    atualizarMemoria();
+  </script></body>
 </html>
